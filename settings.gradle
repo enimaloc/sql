@@ -1,2 +1,3 @@
 rootProject.name = 'sql'
+include 'core'
 
