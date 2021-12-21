@@ -3,6 +3,9 @@ import fr.enimaloc.sql.core.annotation.Table;
 import fr.enimaloc.sql.core.exception.AnnotationNotPresentException;
 import fr.enimaloc.sql.core.request.DataManipulationLanguageRequest;
 import fr.enimaloc.sql.core.request.component.Condition;
+import fr.enimaloc.sql.core.request.component.OrderBy;
+import fr.enimaloc.sql.core.utils.function.Fun;
+import fr.enimaloc.sql.core.utils.function.MathFun;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -72,6 +75,46 @@ class DataManipulationLanguageRequestTest {
                         "SELECT * FROM sample GROUP BY nickname",
                         DataManipulationLanguageRequest.select("sample")
                                                        .group("nickname")
+                                                       .toString()
+                );
+            }
+
+            @Test
+            void having() {
+                assertEquals(
+                        "SELECT * FROM sample HAVING SUM(age) >= 18",
+                        DataManipulationLanguageRequest.select("sample")
+                                .having(() -> Condition.moreOrEq(MathFun.summary("age"), "18"))
+                                .toString()
+                );
+            }
+
+            @Test
+            void orderBy() {
+                assertEquals(
+                        "SELECT * FROM sample ORDER BY ASC age",
+                        DataManipulationLanguageRequest.select("sample")
+                                                       .orderBy(() -> OrderBy.ascendant("age"))
+                                                       .toString()
+                );
+            }
+
+            @Test
+            void limit() {
+                assertEquals(
+                        "SELECT * FROM sample LIMIT 2",
+                        DataManipulationLanguageRequest.select("sample")
+                                                       .limit(2)
+                                                       .toString()
+                );
+            }
+
+            @Test
+            void limitWithOffset() {
+                assertEquals(
+                        "SELECT * FROM sample LIMIT 2 OFFSET 2",
+                        DataManipulationLanguageRequest.select("sample")
+                                                       .limit(2, 2)
                                                        .toString()
                 );
             }

@@ -224,12 +224,12 @@ public class DataManipulationLanguageRequest<T> extends Request<T>
             String ret = this.base();
             ret += this.columnsName().length == 0 ? " *" : " "+String.join(",", this.columnsName());
             ret += " FROM "+this.tableName();
-            ret += this.where() == null ? "" : " WHERE "+this.where().toString();
+            ret += this.where() == null ? "" : " WHERE "+this.where().get().toString();
             ret += this.group().length == 0 ? "" : " GROUP BY " + String.join(",", this.group());
-            ret += this.having() == null ? "" : " HAVING "+this.having().toString();
-            ret += this.orderBy() == null ? "" : " ORDER BY "+this.orderBy().toString();
+            ret += this.having() == null ? "" : " HAVING "+this.having().get().toString();
+            ret += this.orderBy() == null ? "" : " ORDER BY "+this.orderBy().get().toString();
             ret += this.limit == -1 ? "" : " LIMIT "+limit;
-            ret += this.limit == -1 && this.offset == -1 ? "" : " OFFSET "+offset;
+            ret += this.limit == -1 || this.offset == -1 ? "" : " OFFSET "+offset;
 
             return ret;
         }

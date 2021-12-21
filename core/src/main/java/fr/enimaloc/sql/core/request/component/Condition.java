@@ -108,7 +108,7 @@ public class Condition {
 
         @Override
         public String toString() {
-            throw new IllegalStateException("Where Statement not completed");
+            throw new IllegalStateException("Statement uncompleted");
         }
     }
 }
